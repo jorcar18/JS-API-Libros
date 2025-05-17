@@ -91,20 +91,20 @@ app.delete("/libros/:id", async (req, res) => {
 
 //Actualizar un libro por su id
 app.put("/libros/:id", async (req, res) => {
-  const { id } = req.params;
-  const { titulo, autor } = req.body;
-
   try {
-    const libroActualizado = await Libro.findByIdAndUpdate(
-      id,
-      { titulo, autor },
-      { new: true, runValidators: true }
+    const libro = await Libro.findByIdAndUpdate(
+      req.params.id,
+      {
+        titulo: req.body.titulo,
+        autor: req.body.autor,
+      },
+      { new: true }
     );
 
-    if (libroActualizado) {
-      res.json(libroActualizado);
+    if (libro) {
+      res.json(libro);
     } else {
-      res.status(404).send("Libro no encontrado para actualizar");
+      res.status(404).send("Libro no encontrado");
     }
   } catch (error) {
     res.status(500).send("Error al actualizar el libro");
