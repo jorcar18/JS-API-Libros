@@ -91,7 +91,7 @@ app.delete("/libros/:id", async (req, res) => {
     const libro = await Libro.findByIdAndDelete(id);
 
     if (libro) {
-      res.json(libro);
+      res.json({ mensaje: "Libro eliminado correctamente" });
     } else {
       res.status(404).send("Id de libro no encontrado");
     }
@@ -101,13 +101,24 @@ app.delete("/libros/:id", async (req, res) => {
 });
 
 //Actualizar un libro por su id
+app.put("/libros/:id", async (req, res) => {
+  const { id } = req.params;
+  const { titulo, autor } = req.body;
 
-app.get("/libros", async (req, res) => {
   try {
-    const libros = await Libro.find();
-    res.json(libros);
+    const libroActualizado = await Libro.findByIdAndUpdate(
+      id,
+      { titulo, autor },
+      { new: true, runValidators: true }
+    );
+
+    if (libroActualizado) {
+      res.json(libroActualizado);
+    } else {
+      res.status(404).send("Libro no encontrado para actualizar");
+    }
   } catch (error) {
-    res.status(500).send("Error al obtener los libros");
+    res.status(500).send("Error al actualizar el libro");
   }
 });
 
