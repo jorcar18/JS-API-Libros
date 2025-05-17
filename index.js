@@ -31,17 +31,6 @@ const libroSchema = new mongoose.Schema({
 
 const Libro = mongoose.model("Libro", libroSchema);
 
-//Middleware de autenticación
-app.use((req, res, next) => {
-  const authToken = req.headers["authorization"];
-
-  if (authToken === "miTokenSecreto123") {
-    next();
-  } else {
-    res.status(401).send("Acceso no autorizado");
-  }
-});
-
 //Endpoint (Rutas)
 //Crear un libro
 app.post("/libros", async (req, res) => {
