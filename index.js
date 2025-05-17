@@ -111,6 +111,10 @@ app.put("/libros/:id", async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("Bienvenido a la tienda de libros");
+});
+
 app.listen(3000, () => {
   console.log("Servidor ejecutándose en http://localhost:3000");
 });
